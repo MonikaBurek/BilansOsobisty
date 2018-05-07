@@ -4,24 +4,6 @@
 
 using namespace std;
 
-bool File::isFileEmpty(string fileName)
-{
-    int length;
-
-    file.open(fileName.c_str());
-    file.seekg(0, ios::end); // Go to the end of the file.
-
-    length = file.tellg();  // We check the position that corresponds to the length of the file.
-
-    file.close();
-
-    if (length == 0)
-        return 0;// The file is empty.
-    else
-        return 1; // The file contains data.
-}
-
-
 bool File::isFileExists(string fileName)
 {
     file.open(fileName.c_str(), ios::in );  /* wa¿ne, by nie tworzyæ pliku, jeœli nie istnieje, st¹d flaga nocreate */
@@ -34,3 +16,17 @@ bool File::isFileExists(string fileName)
     return false;
 }
 
+bool File::isFirstItemInFile(string fileName, string objectName)
+{
+    CMarkup xml;
+    xml.Load(fileName.c_str());
+
+    xml.ResetPos();
+    xml.FindElem();
+    xml.IntoElem();
+    if (xml.FindElem(objectName))
+    {
+            return true;
+    }
+    return false;
+}

@@ -8,13 +8,12 @@ using namespace std;
 
 int main()
 {
-    Users user1,user2;
+    Users user1;
 
 
-    //user1.registerUser();
-    //user2.registerUser();
     user1.logInUser();
-    user1.passwordChange();
+    user1.registerUser();
+   //user1.passwordChange();
 
 
     return 0;

@@ -15,8 +15,8 @@ class File
     fstream file;
 
 public:
-    bool isFileEmpty(string fileName);
     bool isFileExists(string fileName);
+    bool isFirstItemInFile(string fileName, string objectName);
 };
 
 #endif

@@ -51,7 +51,6 @@ bool UsersFile::doesUserExist(string userLogin)
         xml.IntoElem();
         xml.FindElem("login");
         MCD_STR loginFile = xml.GetData();
-        cout << "loginFIle: " << loginFile << endl;
         if ( userLogin == loginFile)
         {
             return true;
@@ -64,7 +63,7 @@ bool UsersFile::doesUserExist(string userLogin)
 int UsersFile::getLastUserId()
 {
     CMarkup xml;
-    int lastUserId;
+    int lastUserIdInFile;
     xml.Load("users.xml");
 
     xml.ResetPos();
@@ -75,11 +74,10 @@ int UsersFile::getLastUserId()
     {
         xml.IntoElem(); //inside user
         xml.FindElem("id");
-        lastUserId = atoi(MCD_2PCSZ(xml.GetData()));
-        cout << "last userId: " << lastUserId << endl;
+        lastUserIdInFile = atoi(MCD_2PCSZ(xml.GetData()));
         xml.OutOfElem();
     }
-    return lastUserId;
+    return lastUserIdInFile;
 }
 
 User UsersFile::getUser(string userLogin)
@@ -96,7 +94,6 @@ User UsersFile::getUser(string userLogin)
         xml.IntoElem();
         xml.FindElem("login");
         MCD_STR loginFile = xml.GetData();
-        cout << "loginFIle " << loginFile << endl;
         if ( userLogin == loginFile)
         {
             xml.ResetMainPos();
@@ -107,7 +104,6 @@ User UsersFile::getUser(string userLogin)
 
             xml.FindElem("login");
             user.setUserLogin(xml.GetData());
-            cout << "F.getUser UserLogin: " << user.getUserLogin() << endl;
             xml.ResetMainPos();
 
             xml.FindElem("password");
@@ -142,7 +138,6 @@ void UsersFile::changeUserPassword(int loggedInUserId, string password)
         xml.IntoElem();
         xml.FindElem("id");
         idInFile= atoi(MCD_2PCSZ(xml.GetData()));
-        cout << "idInFile " << idInFile << endl;
 
         if ( loggedInUserId == idInFile)
         {
@@ -160,3 +155,5 @@ void UsersFile::changeUserPassword(int loggedInUserId, string password)
     cout << "Dane zostaly zapisne." << endl;
     system("pause");
 }
+
+

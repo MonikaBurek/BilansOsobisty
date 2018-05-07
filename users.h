@@ -13,7 +13,7 @@ The class responsible for logging in, registering, changing the password, loggin
 
 class Users
 {
-    int lastuserIdInFile;
+    int lastUserIdInFile;
     bool isUserLoggedIn;
     UsersFile applicationUsersFile;
     User user;
@@ -21,14 +21,16 @@ class Users
 
 public:
     Users();
-    User giveNewUserData();
+
     int getLoggedUserId();
     void registerUser();
     int logInUser();
     void passwordChange();
-    int logoutUser();
+    int logOutUser();
 
-
+    User giveNewUserData();
+    string enterValue(string word);
+    string changeFirstLetterToUpperCaseAndRemaingLettersToLowerCase(string word);
 };
 
 #endif

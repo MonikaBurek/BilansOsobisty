@@ -16,71 +16,14 @@ int Users::getLoggedUserId()
     return LoggedUserId;
 }
 
-User Users::giveNewUserData()
-{
-    int userId;
-    string userLogin, userPassword, userName, userSurname;
-    bool doesUserExist;
-    bool isFileEmpty;
-    User newUser;
-
-    cout << "Podaj login uzytkownika: ";
-    cin >> userLogin;
-
-    doesUserExist = applicationUsersFile.doesUserExist(userLogin);
-
-    while(doesUserExist == true)
-    {
-        cout << "Taki uzytkownik juz istnieje. Wpisz inna nazwe uzytkownika: ";
-        cin >> userLogin;
-        doesUserExist = applicationUsersFile.doesUserExist(userLogin);
-    }
-
-
-    cout << "Podaj haslo: ";
-    cin >> userPassword;
-
-    isFileEmpty = applicationUsersFile.isFileEmpty("users.xml");
-
-    if ( isFileEmpty == 0)  // if the address book is empty
-    {
-        userId = 1;           // then the new friend has id = 1
-    }
-    else
-    {
-        userId = applicationUsersFile.getLastUserId() + 1; // otherwise, get the last person's id from the address book and increase the value by one.
-    }
-
-    cout << "Podaj imie: ";
-    cin >> userName;
-    cout << "Podaj nazwisko: ";
-    cin >> userSurname;
-
-    newUser.setUserId(userId);
-    newUser.setUserLogin(userLogin);
-    newUser.setUserPassword(userPassword);
-    newUser.setUserName(userName);
-    newUser.setUserSurname(userSurname);
-
-    return newUser;
-}
-
 void Users::registerUser()
 {
-    bool isFileEmpty;
     bool isFileExists;
 
     isFileExists = applicationUsersFile.isFileExists("users.xml"); // funkcja sprawdzaj¹ca czy plik istnieje (zwraca true jeœli istnieje)
-    cout << "isFileExists " << isFileExists << endl;
 
-    if (isFileExists == true)
+    if (isFileExists == false)
     {
-        isFileEmpty = applicationUsersFile.isFileEmpty("users.xml"); // do porawki lub zmiany
-
-    }
-    else if (isFileExists == false)
-    {
-        cout <<"tak" <<endl;
         CMarkup xml;
         xml.AddElem("users");
         xml.IntoElem();
@@ -95,17 +38,16 @@ void Users::registerUser()
     Sleep(1000);
 }
 
-
 int Users::logInUser()
 {
     string userLogin, userPassword;
     bool doesUserExist = 0;
     int attempts = 0;
-    bool isFileEmpty;
+    bool doesUserExistIdOne = 0;
 
-    isFileEmpty = applicationUsersFile.isFileEmpty("users.xml");
+    doesUserExistIdOne = applicationUsersFile.isFirstItemInFile("users.xml", "user");
 
-    if (isFileEmpty == 1)
+    if (doesUserExistIdOne == true)
     {
         cout << "Podaj nazwe uzytkownika: ";
         cin >>  userLogin;
@@ -156,17 +98,108 @@ void Users::passwordChange( )
     cout << "Podaj nowe haslo: ";
     cin >> userPassword;
 
- applicationUsersFile.changeUserPassword(getLoggedUserId(),userPassword);
-
+    applicationUsersFile.changeUserPassword(getLoggedUserId(),userPassword);
 
     cout << "Haslo zostalo zmienione." << endl;
     Sleep(1500);
-
-
 }
 
-int Users::logoutUser()
+int Users::logOutUser()
 {
     LoggedUserId = 0;
     return LoggedUserId;
+}
+
+User Users::giveNewUserData()
+{
+    int userId;
+    string userLogin, userPassword, userName, userSurname;
+    string name, surname;
+    bool doesUserExist;
+    bool doesUserExistIdOneInFile;
+    User newUser;
+
+    cout << "Podaj login uzytkownika: ";
+    cin >> userLogin;
+
+    doesUserExist = applicationUsersFile.doesUserExist(userLogin);
+
+    while(doesUserExist == true)
+    {
+        cout << "Taki uzytkownik juz istnieje. Wpisz inna nazwe uzytkownika: ";
+        cin >> userLogin;
+        doesUserExist = applicationUsersFile.doesUserExist(userLogin);
+    }
+
+    cout << "Podaj haslo: ";
+    cin >> userPassword;
+
+    doesUserExistIdOneInFile = applicationUsersFile.isFirstItemInFile("users.xml", "user");
+
+    if ( doesUserExistIdOneInFile == false)
+    {
+        userId = 1;           // then the new friend has id = 1
+    }
+    else
+    {
+        userId = applicationUsersFile.getLastUserId() + 1; // otherwise, get the last person's id from the address book and increase the value by one.
+    }
+
+    cout << "Podaj imie: ";
+    cin >> name;
+    userName = enterValue(name);
+    cout << "Podaj nazwisko: ";
+    cin >> surname;
+    userSurname = enterValue(surname);
+
+    newUser.setUserId(userId);
+    newUser.setUserLogin(userLogin);
+    newUser.setUserPassword(userPassword);
+    newUser.setUserName(userName);
+    newUser.setUserSurname(userSurname);
+
+    return newUser;
+}
+
+string Users::enterValue(string word)
+{
+    string changeWord;
+
+    changeWord = changeFirstLetterToUpperCaseAndRemaingLettersToLowerCase(word);
+
+    return changeWord;
+}
+
+string Users::changeFirstLetterToUpperCaseAndRemaingLettersToLowerCase(string word)
+{
+    string changeWord = "";
+
+    for (int i = 0; i < word.length(); i++)
+    {
+        if (i == 0 )
+        {
+            if (word[i] >= 97 && word[i] <= 122)  // 97-a 122-z  65 A 90-Z   97-65 = 32
+            {
+                word[i] = word[i] - 32 ;
+                changeWord += word[i];
+            }
+            else if (word[i] >= 65 && word[i] <= 90)
+            {
+                changeWord += word[i];
+            }
+        }
+        if (i > 0 )
+        {
+            if(word[i] >= 97 && word[i] <= 122)
+            {
+                changeWord += word[i];
+            }
+            else if (word[i] >= 65 && word[i] <= 90)
+            {
+                word[i] = word[i] + 32;
+                changeWord += word[i];
+            }
+        }
+    }
+    return changeWord;
 }
