@@ -6,13 +6,26 @@
 
 using namespace std;
 
+Amount::Amount()
+{
+    amount = 0;
+}
+
+Amount:: ~Amount()
+{
+    ;
+}
 
 double Amount::enterAmount()
 {
     string amount,amount2;
     bool result;
-    double amountDouble;
-    cout << "Podaj kwote: " ;
+    double amountDouble,amountRoundToTwoDigitsAfterDot ;
+    bool wrongAmount;
+
+    do
+    {
+    cout << "Podaj wysokosc wydatku: "; ;
     cin >> amount;
 
     amount2 = replaceCommaWithDot(amount);
@@ -21,23 +34,31 @@ double Amount::enterAmount()
     if (result == true)
     {
         amountDouble = conversion.conversionStringToDouble(amount2);
-        cout<< amountDouble <<endl;
+        amountRoundToTwoDigitsAfterDot = roundDownToTwoDigitsAfterDot(amountDouble);
+        wrongAmount = false;
     }
+    else if (result == false)
+    {
+        cout << "Podano nie wlasciwie wysokosc wydatku." << endl;
+        wrongAmount = true;
 
-    return amountDouble;
+    }
+    }while (wrongAmount == true );
+
+
+    return amountRoundToTwoDigitsAfterDot;
 }
 
 string Amount::replaceCommaWithDot(string numberStr)
 {
-    string numberWithDot;
     for (int i = 0; i < numberStr.length(); i++)
     {
         if(numberStr[i] == 44)  // 44 - ,
         {
-            numberWithDot = numberStr.replace(i,1,".");
+            numberStr = numberStr.replace(i,1,".");
         }
     }
-    return numberWithDot;
+    return numberStr;
 }
 
 bool Amount::doesItContainDigitsAndDots(string amount)
@@ -85,7 +106,9 @@ bool Amount::isCorrectAmount(string amount)
 {
     bool result;
     bool digitsAndDots;
+
     digitsAndDots = doesItContainDigitsAndDots(amount);
+
     if (digitsAndDots == true)
     {
         result = doesItContainOneDot(amount);

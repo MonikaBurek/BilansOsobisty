@@ -36,6 +36,22 @@ Date DateOperations::getCurrentDay()
 
 }
 
+int DateOperations::getCurrentDayInt()
+{
+    int year,month,day,date;
+
+    SYSTEMTIME st;
+    GetLocalTime(&st);
+
+    year = st.wYear;
+    month = st.wMonth;
+    day = st.wDay;
+
+    date = year * 10000 + month * 100 + day;
+
+    return date;
+}
+
 int DateOperations::howManyDaysHaveMonth(int year, int month, int day) //ileDniMaDanyMiesiac()  how many days have a given month
 {
     int numberOfDaysInMonth = 0; //iloscDniWMiesiacu; number of Days in a month
@@ -64,8 +80,6 @@ int DateOperations::howManyDaysHaveMonth(int year, int month, int day) //ileDniM
     {
         numberOfDaysInMonth = 31;
     }
-    cout << endl;
-    cout << month << " iloscDniWMiesiacu: " <<  numberOfDaysInMonth << endl;
 
     return numberOfDaysInMonth;
 }
@@ -79,7 +93,6 @@ int DateOperations::daysFromBeginningOfYear(int year, int month, int day)
         sumDaysFromBeginningOfYear += howManyDaysHaveMonth(year,month - i,day);
     }
     sumDaysFromBeginningOfYear += day;
-    cout << "sumDaysFromBeginningOfYear" << sumDaysFromBeginningOfYear << endl;
 
     return sumDaysFromBeginningOfYear;
 }
@@ -118,34 +131,27 @@ bool DateOperations::ComparisonOfDateInRange(string dateProvidedByUser) //Range:
 
     if ((userDate.getMonth() < 1 || userDate.getMonth() > 12) || (userDate.getDay() < 1 || userDate.getDay() > howManyDaysHaveMonth(userDate.getYear(), userDate.getMonth(), userDate.getDay())) || (userDate.getYear() < 2000 || userDate.getYear() > currentDate.getYear()))
     {
-        cout << "((month < 1 || month > 12) || (day < 1 || day > howManyDaysHaveMonth(year, month, day)) || (year > 2000 || year <= currentYear))" << endl;
         returnValue = false;
         return returnValue;
     }
 
     if (userDate.getYear() == currentDate.getYear() )
     {
-        cout << "(year == currentYear )" << endl;
-
         if (userDate.getMonth() == currentDate.getMonth() && userDate.getDay() <= currentDate.getDay())
         {
-            cout << "(month == currentMonth && day <= currentDay)" << endl;
             returnValue = true;
         }
         else if (userDate.getMonth() < currentDate.getMonth())
         {
-            cout << "(month < currentMonth)" << endl;
             sumDaysUser = daysFromBeginningOfYear(userDate.getYear(), userDate.getMonth(), userDate.getDay());
             sumDaysCurrentDay = daysFromBeginningOfYear(currentDate.getYear(), currentDate.getMonth(), currentDate.getDay());
             if (sumDaysUser <= sumDaysCurrentDay)
             {
-                cout << "(sumDaysUser <= sumDaysCurrentDay)" << endl;
                 returnValue = true;
                 return returnValue;
             }
             else
             {
-                cout << "(sumDaysUser <= sumDaysCurrentDay)" << endl;
                 returnValue = false;
                 return returnValue;
             }
@@ -153,8 +159,6 @@ bool DateOperations::ComparisonOfDateInRange(string dateProvidedByUser) //Range:
     }
     else if (userDate.getYear() < currentDate.getYear())
     {
-        cout << "(year < currentYear)" << endl;
-
         returnValue = true;
         return returnValue;
     }
@@ -189,28 +193,38 @@ bool DateOperations::isDateCorrect(string dateProvidedByUser)
 }
 
 
-void DateOperations::loadDateFromUser()
+int DateOperations::loadDateFromUser()
 {
     string dateProvidedByUser;
+    int date;
     bool replay;
+    bool wrongDate;
 
-    cout << "Podaj date w formacie rrrr-mm-dd np. 2017-11-01. Z zakresu od 2000-01-01 do dzis : " << endl;
-    cin >> dateProvidedByUser;
-
-    replay = isDateCorrect(dateProvidedByUser);//sprawdz czy data jest poprawna
-
-    if (replay == true)
+    do
     {
-        cout << "Data jest poprawna." << endl;
-        convertDateFromStringWithDashTolnt(dateProvidedByUser);
+        cout << "Podaj date w formacie rrrr-mm-dd np. 2017-11-01. Z zakresu od 2000-01-01 do dzis : " << endl;
+        cin >> dateProvidedByUser;
+
+        replay = isDateCorrect(dateProvidedByUser);
+
+        if (replay == true)
+        {
+            date = convertDateFromStringWithDashToInt(dateProvidedByUser);
+            wrongDate = false;
+        }
+
+        else if (replay == false)
+        {
+            cout << "Data jest niepoprawna." << endl;
+            wrongDate = true;
+        }
     }
-    else if (replay == false)
-    {
-        cout << "Data jest niepoprawna." << endl;
-    }
+    while (wrongDate == true);
+
+    return date;
 }
 
-int DateOperations::convertDateFromStringWithDashTolnt(string dateStr)
+int DateOperations::convertDateFromStringWithDashToInt(string dateStr)
 {
     int dateInt;
 

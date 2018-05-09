@@ -1,3 +1,6 @@
+#ifndef CONVERSION_H
+#define CONVERSION_H
+
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -14,8 +17,8 @@ class Conversion
    string conversionIntToString (int number);
    int conversionStringToInt (string word);
    string conversionDoubleToString (double number2);
-   int conversionStringToDouble (string word);
+   double conversionStringToDouble (string word);
 };
 
-
+#endif //CONVERSION_H
 

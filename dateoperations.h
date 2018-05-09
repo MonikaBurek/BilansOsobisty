@@ -1,10 +1,10 @@
-//#ifndef DATEOPERATIONS_H
+#ifndef DATEOPERATIONS_H
 #define DATEOPERATIONS_H
 
 #include <iostream>
 #include <vector>
 #include "Date.h"
-#include <string>D
+#include <string>
 #include "conversion.h"
 
 using namespace std;
@@ -21,15 +21,17 @@ class DateOperations
     DateOperations();
     virtual ~DateOperations();
 
-    void loadDateFromUser();
+    int loadDateFromUser();
     bool isDateCorrect(string dateProvidedByUser);
     Date getCurrentDay();
+    int getCurrentDayInt();
     int howManyDaysHaveMonth(int year, int month, int day);
     bool ComparisonOfDateInRange(string dateProvidedByUser);
     int daysFromBeginningOfYear(int year, int month, int day);
     Date setVariableUserDate(string dateProvidedByUser);
 
-    int convertDateFromStringWithDashTolnt(string dateStr);
+    int convertDateFromStringWithDashToInt(string dateStr);
     string convertDateFromIntToStringWithDash(int dateInt);
 
 };
+#endif // DATEOPERATIONS_H

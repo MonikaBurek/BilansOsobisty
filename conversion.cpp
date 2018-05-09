@@ -27,9 +27,9 @@ string Conversion::conversionDoubleToString (double number2)
     return stringOut;
 }
 
-int Conversion::conversionStringToDouble (string word)
+double Conversion::conversionStringToDouble (string word)
 {
-    int variable;
+    double variable;
     variable = atof(word.c_str());
     return variable;
 }
