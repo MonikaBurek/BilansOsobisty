@@ -24,7 +24,7 @@ public:
     virtual ~ExpensesFile();
 
     void addExpensesToFile(Expense newExpense);
-    int loadAllUserExpenses(vector <Expense> &expenses,int);
+    int loadAllUserExpenses(vector <Expense> &expenses,int loggedInUserId);
 
 };
 

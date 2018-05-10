@@ -88,7 +88,6 @@ void Expense::enterDate()
         date = dateOperations.loadDateFromUser();
         break;
     }
-
     setDate(date);
 }
 

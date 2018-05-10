@@ -31,7 +31,6 @@ void UsersFile::addUserToFile(User newUser)
     xml.AddElem("password", newUser.getUserPassword());
     xml.AddElem("name", newUser.getUserName());
     xml.AddElem("surname", newUser.getUserSurname());
-    //xml.OutOfElem(); // back out to user level
 
     xml.Save("users.xml");
     cout << "Dane zostaly zapisne." << endl;
