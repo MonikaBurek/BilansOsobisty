@@ -6,10 +6,26 @@
 #include <algorithm>
 
 using namespace std;
-Expenses::Expenses()
+Expenses::Expenses(int loggedInUserId)
 {
-    int loggedInUserId = 0;
-    int lastExpenseId = 0;
+   try
+   {
+       if (loggedInUserId <= 0)
+       {
+           throw 0;
+       }
+       else
+       {
+           this -> loggedInUserId = loggedInUserId;
+           this -> lastExpenseId = applicationExpensesFile.loadAllUserExpenses(expenses,loggedInUserId);
+       }
+   }
+   catch (int incorrectUserId)
+   {
+       cout << endl << "Nie poprawny numer użytkowanika.Nie jesteś zalogowany" << endl << endl;
+       system("pause");
+       exit(0);
+   }
 }
 Expenses::~Expenses()
 {
@@ -18,22 +34,11 @@ Expenses::~Expenses()
 
 Expense Expenses::enterExpenseDate()
 {
-    int expenseId,userId,date;
+    int userId,date;
     string item;
     double amount;
     Expense newExpense;
     bool doesExpenseExistIdOneInFile;
-
-    doesExpenseExistIdOneInFile = applicationExpensesFile.isFirstItemInFile("expenses.xml", "expense");
-
-    if ( doesExpenseExistIdOneInFile == false)
-    {
-        expenseId = 1;           // then the new friend has id = 1
-    }
-    else
-    {
-        expenseId = lastExpenseId + 1; //otherwise, get the last person's id from the address book and increase the value by one.
-    }
 
     userId = loggedInUserId;
 
@@ -41,7 +46,7 @@ Expense Expenses::enterExpenseDate()
     newExpense.enterItem();
     newExpense.enterAmount();
 
-    newExpense.setExpenseId(expenseId);
+    newExpense.setExpenseId(++lastExpenseId);
     newExpense.setUserId(userId);
 
     return newExpense;
@@ -60,7 +65,6 @@ void Expenses::addExpense()
         xml.IntoElem();
         xml.Save("expenses.xml");
     }
-    lastExpenseId = applicationExpensesFile.loadAllUserExpenses(expenses,1);
     Expense newExpense = enterExpenseDate();
 
     expenses.push_back(newExpense);
@@ -74,7 +78,6 @@ vector <Expense> Expenses::getExpenseFromSelectedPeriod(int dateBeginPeriod, int
 {
     vector <Expense> expenses;
     Expense expense;
-    int loggedInUserId = 1;
     ExpensesFile applicationExpensesFile;
 
     applicationExpensesFile.loadAllUserExpenses(expenses,loggedInUserId);
@@ -109,6 +112,7 @@ void Expenses::sortExpensesByDateInAscendingOrder(vector<Expense> &expenses)
     sort(expenses.begin(), expenses.end(), myObject);
 
 }
+
 void Expenses::showSelectedExpenses(vector <Expense> &expenses)
 {
     int counter = 0;

@@ -17,16 +17,16 @@ class Expenses
     DateOperations dateOperations;
 
 public:
-    Expenses();
+    Expenses(int loggedInUserId);
     virtual ~Expenses();
     void addExpense();
     vector <Expense> getExpenseFromSelectedPeriod(int dateBeginPeriod, int dateEndPeriod);
     void showSelectedExpenses(vector <Expense> &expenses);
-    float getExpensesSum(vector<Expense> &expenses);
+    float getExpensesSum(vector <Expense> &expenses);
 
 private:
     Expense enterExpenseDate();
-    void sortExpensesByDateInAscendingOrder(vector<Expense> &expenses);
+    void sortExpensesByDateInAscendingOrder(vector <Expense> &expenses);
 
 
 };

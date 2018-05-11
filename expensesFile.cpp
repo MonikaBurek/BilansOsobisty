@@ -46,8 +46,8 @@ int ExpensesFile::loadAllUserExpenses(vector <Expense> &expenses,int loggedInUse
     CMarkup xml;
     Expense expense;
     expenses.clear();
-    int userId;
-    int lastExpenseIdInFile;
+    int userId = 0;
+    int lastExpenseIdInFile = 0;
 
     xml.Load("expenses.xml");
 
@@ -93,6 +93,6 @@ int ExpensesFile::loadAllUserExpenses(vector <Expense> &expenses,int loggedInUse
         }
         xml.OutOfElem();
     }
-    return lastExpenseIdInFile;
+return lastExpenseIdInFile;
 }
 

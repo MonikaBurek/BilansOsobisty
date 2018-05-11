@@ -25,7 +25,7 @@ double Amount::enterAmount()
 
     do
     {
-    cout << "Podaj wysokosc wydatku: "; ;
+    cout << "Podaj kwote: ";
     cin >> amount;
 
     amount2 = replaceCommaWithDot(amount);
@@ -34,12 +34,20 @@ double Amount::enterAmount()
     if (result == true)
     {
         amountDouble = conversion.conversionStringToDouble(amount2);
-        amountRoundToTwoDigitsAfterDot = roundDownToTwoDigitsAfterDot(amountDouble);
+        if (amountDouble == 0)
+        {
+         cout << "Podano kwote rowna zero." << endl;
+         wrongAmount = true;
+        }
+        else
+        {
+          amountRoundToTwoDigitsAfterDot = roundDownToTwoDigitsAfterDot(amountDouble);
         wrongAmount = false;
+        }
     }
     else if (result == false)
     {
-        cout << "Podano nie wlasciwie wysokosc wydatku." << endl;
+        cout << "Podano nie wlasciwa wysokosc." << endl;
         wrongAmount = true;
 
     }

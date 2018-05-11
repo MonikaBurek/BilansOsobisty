@@ -1,5 +1,5 @@
-#ifndef EXPENSEFILE_H
-#define EXPENSEFILE_H
+#ifndef EXPENSESFILE_H
+#define EXPENSESFILE_H
 
 #include <iostream>
 #include <vector>
@@ -11,13 +11,12 @@
 using namespace std;
 
 /*
-The class responsible for operations on the file Expenses.txt
+The class responsible for operations on the file expenses.xml
 */
 
 class ExpensesFile :public File
 {
     fstream file;
-  //  Date date;
 
 public:
     ExpensesFile();
@@ -28,4 +27,4 @@ public:
 
 };
 
-#endif // USERSFILE_H
+#endif // EXPENSESFILE_H

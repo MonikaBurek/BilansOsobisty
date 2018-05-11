@@ -1,35 +1,33 @@
-#ifndef EXPENSE_H
-#define EXPENSE_H
+#ifndef INCOME_H
+#define INCOME_H
 
 #include <iostream>
-
-
 
 using namespace std;
 
 /*
-The class based on which the Expense is created (getters and setters)
+The class based on which the Income is created (getters and setters)
 */
 
-class Expense
+class Income
 {
-    int expenseId;
+    int incomeId;
     int userId;
     int date;
     string item;
     double amount;
 
 public:
-    Expense();
-    virtual ~Expense();
+    Income();
+    virtual ~Income();
 
-    int getExpenseId();
+    int getIncomeId();
     int getUserId();
     int getDate();
     string getItem();
     double getAmount();
 
-    void setExpenseId(int expenseId);
+    void setIncomeId(int incomeId);
     void setUserId(int userId);
     void setDate(int date);
     void setItem(string item);
@@ -42,4 +40,4 @@ public:
     string changeLargeLettersIntoSmallOnes(string word);
 };
 
-#endif // EXPENSE_H
+#endif // Income_H

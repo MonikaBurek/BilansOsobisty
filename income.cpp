@@ -1,80 +1,80 @@
 #include <iostream>
-#include "expense.h"
+#include "income.h"
 #include "dateoperations.h"
 #include "Amount.h"
 
 using namespace std;
 
-Expense::Expense()
+Income::Income()
 {
-    expenseId = 0;
+    incomeId = 0;
     userId = 0;
     date = 0;
     item = "";
     amount = 0;
 }
 
-Expense::~Expense()
+Income::~Income()
 {
     ;
 }
 
-int Expense::getExpenseId()
+int Income::getIncomeId()
 {
-    return expenseId;
+    return incomeId;
 }
 
-int Expense::getUserId()
+int Income::getUserId()
 {
     return userId;
 }
 
-int Expense::getDate()
+int Income::getDate()
 {
     return date;
 }
 
-string Expense::getItem()
+string Income::getItem()
 {
     return item;
 }
 
-double Expense::getAmount()
+double Income::getAmount()
 {
     return amount;
 }
 
-void Expense::setExpenseId(int expenseId)
+void Income::setIncomeId(int incomeId)
 {
-    this -> expenseId = expenseId;
+    this -> incomeId = incomeId;
 }
 
-void Expense::setUserId(int userId)
+void Income::setUserId(int userId)
 {
     this -> userId = userId;
 }
 
-void Expense::setDate(int date)
+void Income::setDate(int date)
 {
     this -> date = date;
 }
 
-void Expense::setItem(string item)
+void Income::setItem(string item)
 {
     this -> item = item;
 }
 
-void Expense::setAmount(double amount)
+void Income::setAmount(double amount)
 {
     this -> amount = amount;
 }
 
-void Expense::enterDate()
+void Income::enterDate()
 {
     char selectedMenuItem;
     DateOperations dateOperations;
     int date;
-    cout << "Czy wydatek dotyczy dnia dziesiejszego czy innego dnia?" << endl;
+    cout << "Czy przychod dotyczy dnia dziesiejszego czy innego dnia?" << endl;
     cout << "1.Dzis" << endl;
     cout << "2.Inna data" << endl;
     cin >> selectedMenuItem;
@@ -91,7 +91,7 @@ void Expense::enterDate()
     setDate(date);
 }
 
-string Expense::changeLargeLettersIntoSmallOnes(string word)
+string Income::changeLargeLettersIntoSmallOnes(string word)
 {
     string changeWord = "";
 
@@ -110,15 +110,15 @@ string Expense::changeLargeLettersIntoSmallOnes(string word)
     return changeWord;
 }
 
-void Expense::enterItem()
+void Income::enterItem()
 {
-    cout << "Podaj czego dotyczy wydatek np. jedzenie, restauracja, mieszkanie, transport." << endl;
+    cout << "Podaj czego dotyczy przychod np. wyplata, odsetki z lokaty, sprzedaz na allegro" << endl;
     cin >> item;
 
     setItem(changeLargeLettersIntoSmallOnes(item));
 }
 
-void Expense::enterAmount()
+void Income::enterAmount()
 {
     Amount amount1;
     double amount;
