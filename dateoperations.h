@@ -33,5 +33,9 @@ class DateOperations
     int convertDateFromStringWithDashToInt(string dateStr);
     string convertDateFromIntToStringWithDash(int dateInt);
 
+    int getFistDateInCurrentMonth();
+    int getFistDateInPreviousMonth();
+    int getLastDateInPreviousMonth();
+
 };
 #endif // DATEOPERATIONS_H

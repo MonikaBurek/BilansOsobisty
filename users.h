@@ -17,7 +17,7 @@ class Users
     bool isUserLoggedIn;
     UsersFile applicationUsersFile;
     User user;
-    int LoggedUserId;
+    int loggedUserId;
 
 public:
     Users();

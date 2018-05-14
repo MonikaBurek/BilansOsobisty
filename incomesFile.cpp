@@ -36,8 +36,6 @@ void IncomesFile::addIncomesToFile(Income newIncome)
     xml.AddElem("amount", amount);
 
     xml.Save("incomes.xml");
-    cout << "Dane zostaly zapisne." << endl;
-
 }
 
 int IncomesFile::loadAllUserIncomes(vector <Income> &incomes,int loggedInUserId)
@@ -66,17 +64,14 @@ int IncomesFile::loadAllUserIncomes(vector <Income> &incomes,int loggedInUserId)
             xml.FindElem("incomeId");
             income.setIncomeId(atoi(MCD_2PCSZ(xml.GetData())));
             lastIncomeIdInFile = atoi(MCD_2PCSZ(xml.GetData()));
-            cout << "F.Load IncomeId: " << income.getIncomeId() << endl;
             xml.ResetMainPos();
 
             xml.FindElem("userId");
             income.setUserId(atoi(MCD_2PCSZ(xml.GetData())));
-            cout << "F.Load UserId: " << income.getUserId() << endl;
             xml.ResetMainPos();
 
             xml.FindElem("date");
             income.setDate(atoi(MCD_2PCSZ(xml.GetData())));
-            cout << "F.Load Date: " << income.getDate() << endl;
             xml.ResetMainPos();
 
             xml.FindElem("item");
@@ -85,7 +80,6 @@ int IncomesFile::loadAllUserIncomes(vector <Income> &incomes,int loggedInUserId)
 
             xml.FindElem("amount");
             income.setAmount(atof(MCD_2PCSZ(xml.GetData())));
-            cout << "F.Load Amount: " << income.getAmount() << endl;
             xml.ResetMainPos();
 
             incomes.push_back(income);

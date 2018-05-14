@@ -16,11 +16,11 @@ class BudgetManager
 {
     int userId;
     DateOperations dateOperations;
-    Incomes incomes;
-    Expenses expenses;
+    Incomes incomesUser;
+    Expenses expensesUser;
 
 public:
-    //BudgetManager();
+    BudgetManager(int userId);
     virtual ~BudgetManager();
 
     void addIncome();

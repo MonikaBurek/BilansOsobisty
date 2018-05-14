@@ -20,7 +20,7 @@ double Amount::enterAmount()
 {
     string amount,amount2;
     bool result;
-    double amountDouble,amountRoundToTwoDigitsAfterDot ;
+    double amountDouble,amountRoundToTwoDigitsAfterDot;
     bool wrongAmount;
 
     do
@@ -47,7 +47,7 @@ double Amount::enterAmount()
     }
     else if (result == false)
     {
-        cout << "Podano nie wlasciwa wysokosc." << endl;
+        cout << "Podano nie wlasciwa wartosc." << endl;
         wrongAmount = true;
 
     }

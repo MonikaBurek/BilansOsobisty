@@ -249,4 +249,62 @@ string DateOperations::convertDateFromIntToStringWithDash(int dateInt)
     return dateStr;
 }
 
+int DateOperations::getFistDateInCurrentMonth()
+{
+    int day = 1, month, year, firstDateInMonth;
 
+    userDate = getCurrentDay();
+    month = userDate.getMonth();
+    year = userDate.getYear();
+
+    firstDateInMonth = year * 10000 + month * 100 + day;
+
+   return firstDateInMonth;
+}
+
+int DateOperations::getFistDateInPreviousMonth()
+{
+    int day = 1, month, year, firstDateInMonth;
+
+    userDate = getCurrentDay();
+
+    if (userDate.getMonth() > 1)
+    {
+        month = userDate.getMonth() - 1;
+        year = userDate.getYear();
+    }
+    else if (userDate.getMonth() == 1)
+    {
+        month = 12;
+        year = userDate.getYear() - 1;
+    }
+
+    firstDateInMonth = year * 10000 + month * 100 + day;
+
+   return firstDateInMonth;
+}
+
+int DateOperations::getLastDateInPreviousMonth()
+{
+   int day, month, year, lastDateInPreviousMonth;
+
+    userDate = getCurrentDay();
+    year = userDate.getYear();
+
+    if (userDate.getMonth() > 1)
+    {
+        month = userDate.getMonth() - 1;
+        year = userDate.getYear();
+    }
+    else if (userDate.getMonth() == 1)
+    {
+        month = 12;
+        year = userDate.getYear() - 1;
+    }
+
+    day = howManyDaysHaveMonth(year,month,userDate.getDay());
+
+    lastDateInPreviousMonth = year * 10000 + month * 100 + day;
+
+   return lastDateInPreviousMonth;
+}

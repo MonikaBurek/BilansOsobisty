@@ -8,12 +8,12 @@ using namespace std;
 
 Users::Users()
 {
-    LoggedUserId = 0;
+    loggedUserId = 0;
 }
 
 int Users::getLoggedUserId()
 {
-    return LoggedUserId;
+    return loggedUserId;
 }
 
 void Users::registerUser()
@@ -65,8 +65,8 @@ int Users::logInUser()
                 if (user.getUserPassword() == userPassword)
                 {
                     cout<< "Zalogowales sie." << endl;
-                    LoggedUserId = user.getUserId();
-                    return LoggedUserId;
+                    loggedUserId = user.getUserId();
+                    return loggedUserId;
                 }
             }
             if( attempts == 3)
@@ -106,8 +106,8 @@ void Users::passwordChange( )
 
 int Users::logOutUser()
 {
-    LoggedUserId = 0;
-    return LoggedUserId;
+    loggedUserId = 0;
+    return loggedUserId;
 }
 
 User Users::giveNewUserData()

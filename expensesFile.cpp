@@ -34,11 +34,8 @@ void ExpensesFile::addExpensesToFile(Expense newExpense)
     xml.AddElem("item", newExpense.getItem());
     amount = conversion.conversionDoubleToString(newExpense.getAmount());
     xml.AddElem("amount", amount);
-    //xml.OutOfElem(); // back out to user level
 
     xml.Save("expenses.xml");
-    cout << "Dane zostaly zapisne." << endl;
-
 }
 
 int ExpensesFile::loadAllUserExpenses(vector <Expense> &expenses,int loggedInUserId)
@@ -67,17 +64,14 @@ int ExpensesFile::loadAllUserExpenses(vector <Expense> &expenses,int loggedInUse
             xml.FindElem("expenseId");
             expense.setExpenseId(atoi(MCD_2PCSZ(xml.GetData())));
             lastExpenseIdInFile = atoi(MCD_2PCSZ(xml.GetData()));
-            cout << "F.Load expenseId: " << expense.getExpenseId() << endl;
             xml.ResetMainPos();
 
             xml.FindElem("userId");
             expense.setUserId(atoi(MCD_2PCSZ(xml.GetData())));
-            cout << "F.Load UserId: " << expense.getUserId() << endl;
             xml.ResetMainPos();
 
             xml.FindElem("date");
             expense.setDate(atoi(MCD_2PCSZ(xml.GetData())));
-            cout << "F.Load Date: " << expense.getDate() << endl;
             xml.ResetMainPos();
 
             xml.FindElem("item");
@@ -86,7 +80,6 @@ int ExpensesFile::loadAllUserExpenses(vector <Expense> &expenses,int loggedInUse
 
             xml.FindElem("amount");
             expense.setAmount(atof(MCD_2PCSZ(xml.GetData())));
-            cout << "F.Load Amount: " << expense.getAmount() << endl;
             xml.ResetMainPos();
 
             expenses.push_back(expense);

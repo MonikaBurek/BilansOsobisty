@@ -8,24 +8,24 @@
 using namespace std;
 Incomes::Incomes(int loggedInUserId)
 {
-   try
-   {
-       if (loggedInUserId <= 0)
-       {
-           throw 0;
-       }
-       else
-       {
-           this -> loggedInUserId = loggedInUserId;
-           this -> lastIncomeId = applicationIncomesFile.loadAllUserIncomes(incomes,loggedInUserId);
-       }
-   }
-   catch (int incorrectUserId)
-   {
-       cout << endl << "Nie poprawny numer użytkowanika.Nie jesteś zalogowany" << endl << endl;
-       system("pause");
-       exit(0);
-   }
+    try
+    {
+        if (loggedInUserId <= 0)
+        {
+            throw 0;
+        }
+        else
+        {
+            this -> loggedInUserId = loggedInUserId;
+            this -> lastIncomeId = applicationIncomesFile.loadAllUserIncomes(incomes,loggedInUserId);
+        }
+    }
+    catch (int incorrectUserId1)
+    {
+        cout << endl << "Nie poprawny numer uzytkowanika.Nie jestes zalogowany" << endl << endl;
+        system("pause");
+        exit(0);
+    }
 }
 Incomes::~Incomes()
 {
@@ -34,11 +34,9 @@ Incomes::~Incomes()
 
 Income Incomes::enterIncomeDate()
 {
-    int userId,date;
+    int userId;
     string item;
-    double amount;
     Income newIncome;
-    bool doesIncomeExistIdOneInFile;
 
     userId = loggedInUserId;
 
@@ -71,7 +69,7 @@ void Incomes::addIncome()
     applicationIncomesFile.addIncomesToFile(newIncome);
 
     cout << endl << "Zapisano przychod. " << endl;
-    Sleep(1000);
+    system("pause");
 }
 
 vector <Income> Incomes::getIncomesFromSelectedPeriod(int dateBeginPeriod, int dateEndPeriod)
@@ -82,18 +80,18 @@ vector <Income> Incomes::getIncomesFromSelectedPeriod(int dateBeginPeriod, int d
 
     applicationIncomesFile.loadAllUserIncomes(incomes,loggedInUserId);
 
-    for (vector <Income>::iterator itr = incomes.begin(); itr != incomes.end(); itr++)
+    if (!incomes.empty())
     {
-        if (itr -> getDate() < dateBeginPeriod || itr -> getDate() > dateEndPeriod)
+        for (vector <Income>::iterator itr = incomes.begin(); itr != incomes.end(); itr++)
         {
-            itr = incomes.erase(itr);
-            cout << "Przychod zostal usuniety." << endl << endl;
-            break;
+            if (itr -> getDate() < dateBeginPeriod || itr -> getDate() > dateEndPeriod)
+            {
+                itr = incomes.erase(itr);
+                itr--;
+            }
         }
     }
 
-    showSelectedIncomes(incomes);
-    getIncomesSum(incomes);
 
     return incomes;
 }
@@ -102,15 +100,13 @@ struct CompareDate
 {
     bool operator()(Income &first, Income & second)
     {
-        return first.getDate() > second.getDate();
+        return first.getDate() < second.getDate();
     }
 } myObject2;
 
 void Incomes::sortIncomesByDateInAscendingOrder(vector <Income> &incomes)
 {
-    cout << "Zmienne posorowane. " <<endl;
     sort(incomes.begin(), incomes.end(), myObject2);
-
 }
 
 void Incomes::showSelectedIncomes(vector <Income> &incomes)
@@ -118,39 +114,32 @@ void Incomes::showSelectedIncomes(vector <Income> &incomes)
     int counter = 0;
     sortIncomesByDateInAscendingOrder(incomes);
 
-    cout << "Lista przychodow:" << endl;
-    cout.width(5);
-    cout << left << "Lp." ;
-    cout.width(15);
-    cout << left << "Data" ;
-    cout.width(19);
-    cout << left << "Kategoria" ;
-    cout.width(20);
-    cout << left <<" Kwota" << endl;
+    cout << endl << "Lista przychodow:" << endl;
+    cout << "Lp.";
+    cout << "\tData";
+    cout << "\t\tKategoria";
+    cout << "\t\tKwota" << endl;
 
     for (vector <Income>::iterator itr = incomes.begin(); itr != incomes.end(); itr++)
     {
         counter += 1;
-        cout << counter << "    ";
-        cout << dateOperations.convertDateFromIntToStringWithDash(itr -> getDate()) << "     " ;
-        cout << itr -> getItem() << "          ";
-        cout << itr -> getAmount() << "    " << endl;
+        cout << counter << "\t";
+        cout << dateOperations.convertDateFromIntToStringWithDash(itr -> getDate()) << "\t";
+        cout << itr -> getItem() << "\t\t\t";
+        cout << itr -> getAmount() << endl;
     }
-
 }
 
 float Incomes::getIncomesSum(vector<Income> &incomes)
 {
-   float incomesSum = 0;
-   double amount = 0;
+    float incomesSum = 0;
+    double amount = 0;
 
-   for (vector <Income>::iterator itr = incomes.begin(); itr != incomes.end(); itr++)
+    for (vector <Income>::iterator itr = incomes.begin(); itr != incomes.end(); itr++)
     {
         amount = itr -> getAmount();
         incomesSum +=  amount;
     }
-    cout << "Suma przychodow: " << incomesSum << endl;
-
- return incomesSum;
+    return incomesSum;
 }
 

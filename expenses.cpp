@@ -5,27 +5,28 @@
 #include <windows.h>
 #include <algorithm>
 
+
 using namespace std;
 Expenses::Expenses(int loggedInUserId)
 {
-   try
-   {
-       if (loggedInUserId <= 0)
-       {
-           throw 0;
-       }
-       else
-       {
-           this -> loggedInUserId = loggedInUserId;
-           this -> lastExpenseId = applicationExpensesFile.loadAllUserExpenses(expenses,loggedInUserId);
-       }
-   }
-   catch (int incorrectUserId)
-   {
-       cout << endl << "Nie poprawny numer użytkowanika.Nie jesteś zalogowany" << endl << endl;
-       system("pause");
-       exit(0);
-   }
+    try
+    {
+        if (loggedInUserId <= 0)
+        {
+            throw 0;
+        }
+        else
+        {
+            this -> loggedInUserId = loggedInUserId;
+            this -> lastExpenseId = applicationExpensesFile.loadAllUserExpenses(expenses,loggedInUserId);
+        }
+    }
+    catch (int incorrectUserId)
+    {
+        cout << endl << "Nie poprawny numer uzytkowanika. Nie jestes zalogowany" << endl << endl;
+        system("pause");
+        exit(0);
+    }
 }
 Expenses::~Expenses()
 {
@@ -34,11 +35,9 @@ Expenses::~Expenses()
 
 Expense Expenses::enterExpenseDate()
 {
-    int userId,date;
+    int userId;
     string item;
-    double amount;
     Expense newExpense;
-    bool doesExpenseExistIdOneInFile;
 
     userId = loggedInUserId;
 
@@ -56,7 +55,7 @@ void Expenses::addExpense()
 {
     bool isFileExists;
 
-    isFileExists = applicationExpensesFile.isFileExists("expenses.xml"); // funkcja sprawdzaj¹ca czy plik istnieje (zwraca true jeœli istnieje)
+    isFileExists = applicationExpensesFile.isFileExists("expenses.xml");
 
     if (isFileExists == false)
     {
@@ -70,8 +69,8 @@ void Expenses::addExpense()
     expenses.push_back(newExpense);
     applicationExpensesFile.addExpensesToFile(newExpense);
 
-    cout << endl << "Zapisano wydatek. " << endl;
-    Sleep(1000);
+    cout << endl << "Zapisano wydatek." << endl;
+    system("pause");
 }
 
 vector <Expense> Expenses::getExpenseFromSelectedPeriod(int dateBeginPeriod, int dateEndPeriod)
@@ -82,19 +81,17 @@ vector <Expense> Expenses::getExpenseFromSelectedPeriod(int dateBeginPeriod, int
 
     applicationExpensesFile.loadAllUserExpenses(expenses,loggedInUserId);
 
-    for (vector <Expense>::iterator itr = expenses.begin(); itr != expenses.end(); itr++)
+    if (!expenses.empty())
     {
-        if (itr -> getDate() < dateBeginPeriod || itr -> getDate() > dateEndPeriod)
+        for (vector <Expense>::iterator itr = expenses.begin(); itr != expenses.end(); itr++)
         {
-            itr = expenses.erase(itr);
-            cout << "Wydatek zostal usuniety." << endl << endl;
-            break;
+            if (itr -> getDate() < dateBeginPeriod || itr -> getDate() > dateEndPeriod)
+            {
+                itr = expenses.erase(itr);
+                itr--;
+            }
         }
     }
-
-    showSelectedExpenses(expenses);
-    getExpensesSum(expenses);
-
     return expenses;
 }
 
@@ -102,15 +99,13 @@ struct CompareDate
 {
     bool operator()(Expense &first, Expense & second)
     {
-        return first.getDate() > second.getDate();
+        return first.getDate() < second.getDate();
     }
 } myObject;
 
 void Expenses::sortExpensesByDateInAscendingOrder(vector<Expense> &expenses)
 {
-    cout << "Zmienne posorowane. " <<endl;
     sort(expenses.begin(), expenses.end(), myObject);
-
 }
 
 void Expenses::showSelectedExpenses(vector <Expense> &expenses)
@@ -118,39 +113,33 @@ void Expenses::showSelectedExpenses(vector <Expense> &expenses)
     int counter = 0;
     sortExpensesByDateInAscendingOrder(expenses);
 
-    cout << "Lista wydatkow:" << endl;
-    cout.width(5);
-    cout << left << "Lp." ;
-    cout.width(15);
-    cout << left << "Data" ;
-    cout.width(19);
-    cout << left << "Kategoria" ;
-    cout.width(20);
-    cout << left <<" Kwota" << endl;
+    cout << endl << "Lista wydatkow:" << endl;
+    cout << "Lp.";
+    cout << "\tData";
+    cout << "\t\tKategoria";
+    cout << "\t\tKwota" << endl;
 
-    for (vector <Expense>::iterator itr = expenses.begin(); itr != expenses.end(); itr++)
+     for (vector <Expense>::iterator itr = expenses.begin(); itr != expenses.end(); itr++)
     {
         counter += 1;
-        cout << counter << "    ";
-        cout << dateOperations.convertDateFromIntToStringWithDash(itr -> getDate()) << "     " ;
-        cout << itr -> getItem() << "          ";
-        cout << itr -> getAmount() << "    " << endl;
+        cout << counter << "\t";
+        cout << dateOperations.convertDateFromIntToStringWithDash(itr -> getDate()) << "\t";
+        cout << itr -> getItem() << "\t\t";
+        cout << itr -> getAmount() << endl;
     }
-
 }
 
 float Expenses::getExpensesSum(vector<Expense> &expenses)
 {
-   float expensesSum = 0;
-   double amount = 0;
+    float expensesSum = 0;
+    double amount = 0;
 
-   for (vector <Expense>::iterator itr = expenses.begin(); itr != expenses.end(); itr++)
+    for (vector <Expense>::iterator itr = expenses.begin(); itr != expenses.end(); itr++)
     {
         amount = itr -> getAmount();
         expensesSum +=  amount;
     }
-    cout << "Suma wydatkow: " << expensesSum << endl;
 
- return expensesSum;
+    return expensesSum;
 }
 
